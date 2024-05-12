@@ -3,16 +3,14 @@ import streamlit as st
 import streamlit.components.v1 as components
 from datetime import datetime
 import pandas as pd
-
-from prophet import Prophet
 import yfinance as yf
+from prophet import Prophet
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go
 import pygwalker as pyg
 import requests
 from pygwalker.api.streamlit import StreamlitRenderer
 import time
-
 
 import base64
 def download_link(object_to_download, download_filename, download_link_text):
@@ -24,14 +22,18 @@ def download_link(object_to_download, download_filename, download_link_text):
 
 
 
-
 START = "2015-01-01"
 TODAY = datetime.today().strftime('%Y-%m-%d')
+
 
 
 # Main page layout adjustments
 st.set_page_config(page_title='Cryptocurrencies Price Predictor', layout='wide')
 st.title('Cryptocurrencies Price Predictor')
+
+
+
+
 
 #Navigation bar Defination
 def navigation_bar():
@@ -65,8 +67,13 @@ def navigation_bar():
     </div>
     """, unsafe_allow_html=True)
 
+
+
+
 # Call the function to display the navigation bar
 navigation_bar()
+
+
 
 
 
@@ -75,8 +82,17 @@ Our innovative prediction tool empowers users to chart the potential trajectory 
 """)
 st.markdown("""Select a cryptocurrency and the frequency of prediction from the dropdown menus below.""")
 
+
+
+
+
+
 # List of cryptocurrencies
 Currency = ('BTC-USD', 'ETH-USD', 'USDT-USD', 'BNB-USD','SOL-USD','USDC-USD','XRP-USD','ADA-USD','AVAX-USD','BCH-USD')
+
+
+
+
 
 
 # Create a container with the custom scrollbar
@@ -110,10 +126,21 @@ with st.sidebar:
         st.experimental_rerun()
 
 
+
+
+
+
+
 # Adjust the slider for the number of periods to forecast based on the selected frequency
 st.header('Select Parameters')
 period = st.slider('Number of periods for prediction:', 1, max_periods)
     
+
+
+
+
+
+
 
 @st.cache_data
 def load_data(ticker):
@@ -132,6 +159,10 @@ st.write(data.tail())
 st.markdown("---")
 
 
+
+
+
+
 # Plot raw data
 def plot_raw_data():
     fig = go.Figure(data=[go.Candlestick(x=data['Date'],
@@ -146,6 +177,10 @@ plot_raw_data()
 
 
 
+
+
+
+
 # Predict forecast with Prophet.
 df_train = data[['Date','Close']]
 df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
@@ -157,6 +192,17 @@ forecast = m.predict(future)
 
 st.divider()
 
+
+
+
+
+
+
+
+
+
+
+
 # Use markdown to create an anchor in your app for the FORECASTING  section
 st.markdown('<div id="FORECASTING"></div>', unsafe_allow_html=True)
 
@@ -166,7 +212,6 @@ st.markdown('<div id="FORECASTING"></div>', unsafe_allow_html=True)
 st.header('FORECASTING')
 st.markdown(" The Forecasting section of the application leverages to predict future cryptocurrency prices based on historical data. Users can select from a range of cryptocurrencies and set the prediction frequency to daily, weekly, monthly, or yearly. The forecast includes a plot of predicted values along with upper and lower limits, providing a visual representation of the expected price range.")
      
-
 
 ## forecasting
 # Show and plot forecast
@@ -227,11 +272,16 @@ st.subheader("FORECASTED COMPONENTS")
 fig3 = m.plot_components(forecast)
 st.write(fig3)
 
-
-
 # Optimize the forecast dataframe by selecting only necessary columns
 Optimized_Forecast = forecast_filt[['ds', 'yhat', 'yhat_lower', 'yhat_upper']]
 Optimized_Forecast = Optimized_Forecast.rename(columns={"yhat": "predicted","yhat_upper":"Upper","yhat_lower":"Lower"})
+
+
+
+
+
+
+
 
 
 
@@ -256,6 +306,16 @@ with st.sidebar:
    
     # Display the download link
     st.markdown(tmp_download_link, unsafe_allow_html=True)
+
+
+
+
+
+
+
+
+
+
 
 
 # Use markdown to create an anchor in your app for the USER DATA VISUALIZATION section
