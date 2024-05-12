@@ -3,8 +3,9 @@ import streamlit as st
 import streamlit.components.v1 as components
 from datetime import datetime
 import pandas as pd
-import yfinance as yf
+
 from prophet import Prophet
+import yfinance as yf
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go
 import pygwalker as pyg
